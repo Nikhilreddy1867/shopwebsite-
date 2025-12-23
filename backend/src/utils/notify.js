@@ -8,22 +8,7 @@ function getTwilioClient() {
   return twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 }
 
-export async function sendSmsAlert(order) {
-  const client = getTwilioClient();
-  const to = process.env.ALERT_SMS_TO;
-  const from = process.env.TWILIO_FROM_SMS;
-  if (!client || !to || !from) {
-    console.warn("SMS alert skipped (missing Twilio SMS env).");
-    return;
-  }
-  await client.messages.create({
-    body: buildPlainText(order),
-    from,
-    to,
-  });
-}
-
-export async function sendWhatsAppAlert(order) {
+export async function sendWhatsApp(order) {
   const client = getTwilioClient();
   const to = process.env.ALERT_WHATSAPP_TO;
   const from = process.env.TWILIO_FROM_WHATSAPP;

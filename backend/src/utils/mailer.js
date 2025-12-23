@@ -8,7 +8,7 @@ export function buildTransporter() {
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === "true",
+    secure: String(process.env.SMTP_SECURE).toLowerCase() === "true",
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -16,7 +16,7 @@ export function buildTransporter() {
   });
 }
 
-export async function sendOrderEmail(order) {
+export async function sendMail(order) {
   const transporter = buildTransporter();
   if (!transporter) {
     console.warn("Email transporter not configured; skipping email send.");

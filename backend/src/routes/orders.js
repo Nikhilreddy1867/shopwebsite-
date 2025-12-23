@@ -1,7 +1,7 @@
 import express from "express";
 import Order from "../models/Order.js";
-import { sendOrderEmail } from "../utils/mailer.js";
-import { sendSmsAlert, sendWhatsAppAlert } from "../utils/notify.js";
+import { sendMail } from "../utils/mailer.js";
+import { sendWhatsApp } from "../utils/notify.js";
 
 const router = express.Router();
 
@@ -37,16 +37,10 @@ router.post("/", async (req, res) => {
       notes,
     });
 
-    await Promise.all([
-      sendOrderEmail(order).catch((err) => console.error("Email send failed", err)),
-      sendSmsAlert(order).catch((err) => console.error("SMS alert failed", err)),
-      sendWhatsAppAlert(order).catch((err) =>
-        console.error("WhatsApp alert failed", err)
-      ),
-    ]);
+    res.status(201).json({ success: true, orderId: order._id });
 
-    const whatsappLink = buildWhatsAppLink(order);
-    res.status(201).json({ message: "Order received", order, whatsappLink });
+    sendMail(order).catch((err) => console.error("Email send failed", err));
+    sendWhatsApp(order).catch((err) => console.error("WhatsApp alert failed", err));
   } catch (error) {
     console.error("Order creation failed", error);
     res.status(500).json({ message: "Failed to create order" });
