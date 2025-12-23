@@ -31,7 +31,7 @@ function Home() {
           </div>
           <div className="bg-white rounded-2xl shadow-lg border border-gold/30 p-6">
             <img
-              src="https://images.unsplash.com/photo-1617032213042-09d9215d57ab?auto=format&fit=crop&w=900&q=80"
+              src="/d9c58cee-279c-4b45-a007-c8ae7c05409f.jpg"
               alt="Saree care"
               className="rounded-xl object-cover w-full h-72"
             />
